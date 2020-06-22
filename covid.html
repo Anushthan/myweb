@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title</title>
+    <link href="index.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+<div id="coivd"></div>
+</body>
+<script src="index.js"></script>
+</html>
+<script type="text/javascript">
+	var BASE_URL='https://coronavirus-19-api.herokuapp.com';
+window.onload=function () {
+    getAllCovidData();
+}
+function getAllCovidData() {
+    const fetchPromise = fetch(BASE_URL+"/countries");
+    fetchPromise.then(response => {
+        return response.json();
+    }).then(data => {
+        renderData(data);
+    }).catch(error=>{
+            console.log(error);
+    });
+}
+function renderData(data) {
+    var covidlist=''
+    data.forEach(function (value) {
+        covidlist=covidlist+'<div>\n' +
+            '    <div class="name">'+value.country+'</div>\n' +
+            '<div class="covid-container">\n' +
+            '    <div class="recoverd">\n' +
+            '        <span>Recoverd</span><br/>\n' +
+            '        <span class="recoverd-data">'+value.recovered+'</span>\n' +
+            '    </div>\n' +
+            '    <div class="active">\n' +
+            '        <span>Active</span><br/>\n' +
+            '        <span class="active-data">'+value.cases+'</span>\n' +
+            '    </div>\n' +
+            '    <div class="death">\n' +
+            '        <span>Death</span><br/>\n' +
+            '        <span class="deatdh-data">'+value.deaths+'</span>\n' +
+            '    </div>\n' +
+            '\n' +
+            '</div>\n' +
+            '</div>';
+    });
+    document.getElementById('coivd').innerHTML=covidlist;
+}
+
+</script>
+
